@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste des équipes
+{% endblock %}
+
+{% block body %}
+
+	{% include('site/baseEquipe.html.twig') %}
+	<h1>Liste des équipes</h1>
+	<div class="d-flex flex-wrap  bd-highlight mb-3">
+		{% for equipe in equipes %}
+			<div class="card border-primary mb-3 " style="width: 25rem; margin-right: 2rem; ">
+				<div class="card-header">Equipe n°{{equipe.id}}</div>
+				<div class="card-body">
+
+					<h4 class="card-title">{{ equipe.nom }}</h4>
+					<p>Niveau de l'équipe :
+						{{equipe.niveau.libelle}}</p>
+				</div>
+				<a href="{{ path('une_equipe', {'id': equipe.id}) }}" class="btn btn-primary">voir les détails</a>
+			</div>
+
+		{% endfor %}
+	</div>
+
+{% endblock %}

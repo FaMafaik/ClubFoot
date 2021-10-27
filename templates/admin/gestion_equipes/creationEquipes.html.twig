@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+{% block title %}Création d'équipe
+{% endblock %}
+{% form_theme formEquipe 'bootstrap_5_layout.html.twig' %}
+{% block body %}
+	<h1>Création d'une équipe</h1>
+
+	{{ form_start(formEquipe)}}
+
+	{{form_row(formEquipe.nom, {'attr':{'placeholder': "Nom de l'équipe"}})}}
+	{{form_row(formEquipe.niveau)}}
+
+	<button type="submit" class="btn btn-success">Créer l'équipe</button>
+	{{ form_end(formEquipe)}}
+{% endblock %}

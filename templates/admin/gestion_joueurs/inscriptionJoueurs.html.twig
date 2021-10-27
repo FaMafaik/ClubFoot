@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+{% block title %}Inscription joueur
+{% endblock %}
+
+{% form_theme formJoueur 'bootstrap_5_layout.html.twig' %}
+{% block body %}
+	<h1>Les inscriptions de joueurs</h1>
+
+	{{ form_start(formJoueur)}}
+
+	{{form_row(formJoueur.nom, {'attr':{'placeholder': "Nom du joueur"}})}}
+	{{form_row(formJoueur.prenom, {'attr':{'placeholder': "Prénom du joueur"}})}}
+	{{form_row(formJoueur.email, {'attr':{'placeholder': "Email du joueur"}})}}
+	{{form_row(formJoueur.dateNaissance)}}
+	{{form_row(formJoueur.equipe)}}
+	<button type="submit" class="btn btn-success">Inscrire le joueur</button>
+	{{ form_end(formJoueur)}}
+{% endblock %}

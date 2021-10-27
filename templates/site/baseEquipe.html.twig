@@ -1,0 +1,17 @@
+{% block body %}
+	<section class="saisons">
+		<ul class="nav nav-tabs">
+			<li class="nav-item">
+				<a class="nav-link disabled" href="#">Les équipes par saisons :</a>
+
+			</li>
+
+			{% for saison in saisons %}
+
+				<li class="nav-item">
+					<a class="nav-link" href="{{ path('une_saison', {'id': saison.id}) }}">{{saison.libelle}}</a>
+				</li>
+			{% endfor %}
+		</ul>
+	</section>
+{% endblock %}

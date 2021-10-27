@@ -1,0 +1,181 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+	<article>
+		<h2>{{ joueur.nom }}
+			{{ joueur.prenom }}</h2>
+		<div class="metadata">Né le
+			{{joueur.dateNaissance | date('d/m/Y')}}</div>
+
+		<p>Joue actuellement pour
+		</p>
+		<div class="content">
+			<img src="{{joueur.photoJoueur}}" alt="">
+
+		</div>
+
+	</article>
+	<hr>
+	<article>
+		<p>{{joueur.nom}}
+			{{joueur.prenom}}
+			à jouer pour les équipes suivantes :</p>
+
+
+		<ul class="nav nav-tabs">
+			<li class="nav-item">
+				<a class="nav-link disabled" href="#">Equipes :</a>
+
+			</li>
+			{% for equipe in equipesJoueur %}
+				<li class="nav-item">
+					<a class="nav-link" data-bs-toggle="tab" href="#equipe{{equipe.id}}">{{equipe.nom}}</a>
+				</li>
+			{% endfor %}
+
+		</ul>
+
+
+		<div id="myTabContent" class="tab-content">
+
+			{% for equipe in equipesJoueur %}
+				<div class="tab-pane fade" id="equipe{{equipe.id}}">
+					<ul class="nav nav-tabs">
+						<li class="nav-item">
+							<a class="nav-link disabled" href="#">Saisons :</a>
+
+						</li>
+
+						{% for saison in equipe.saison %}
+							{% for licence in licences %}
+								{% if (licence.equipe.id == equipe.id) and (licence.saison.id == saison.id) and (licence.joueur.id == joueur.id) %}
+									<li class="nav-item">
+										<a class="nav-link" data-bs-toggle="tab" href="#equipe{{equipe.id}}-saison{{saison.id}}">{{saison.libelle}}</a>
+									</li>
+
+
+								{% endif %}
+							{% endfor %}
+
+						{% endfor %}
+
+					</ul>
+
+					<div id="myTabContent" class="tab-content">
+
+						{% for saisonA in equipe.saison %}
+
+							{% for saisonB in saisonsJoueur %}
+								{% if saisonA.id == saisonB.id %}
+									<div class="tab-pane fade" id="equipe{{equipe.id}}-saison{{saisonB.id}}">
+										<p>Les statistiques du joueur dans l'équipe
+											{{equipe.nom}}
+											pour la saison
+											{{saisonB.libelle}}</p>
+										<table class="table table-hover">
+
+											<thead>
+												<tr>
+													<th scope="col"></th>
+													<th scope="col">Date</th>
+													<th scope="col">Match</th>
+													<th scope="col">Passes décisive</th>
+													<th scope="col">Buts</th>
+													<th scope="col">Minutes de jeu</th>
+												</tr>
+											</thead>
+
+
+											{% set matchsCounter = 0 %}
+											{% set matchsMinTotal = 0 %}
+											{% set nbButsTotal = 0 %}
+											{% set nbPassesTotal = 0 %}
+											<!-- debut de remplissage du tableau -->
+											{% for match in matchs %}
+
+
+												{% if (match.equipe.id == equipe.id)  %}
+
+													{% for participation in participations %}
+
+														{% if (participation.joueur.id == joueur.id) and (participation.matchs.id == match.id) %}
+															{% for saisonC in match.saison %}
+																{% if saisonC.id == saisonB.id  %}
+																	<!-- les buts -->
+																	{% set nbButs = 0 %}
+																	{% for but in buts %}
+																		{% if (but.joueur.id == joueur.id) and (but.matchs.id == match.id) %}
+																			{% set nbButs = nbButs + 1 %}
+
+
+																		{% endif %}
+																	{% endfor %}
+																	<!-- les passes décisives -->
+																	{% set nbPasses = 0 %}
+
+																	{% for passe in passes %}
+																		{% if (passe.joueur.id == joueur.id) and (passe.matchs.id == match.id) %}
+																			{% set nbPasses = nbPasses + 1 %}
+
+
+																		{% endif %}
+																	{% endfor %}
+																	<!-- compteur pour le nb matchs -->
+																	{% set nbPassesTotal = nbPassesTotal + nbPasses %}
+																	{% set nbButsTotal = nbButsTotal + nbButs %}
+																	{% set matchsCounter = matchsCounter + 1 %}
+																	{% set matchsMinTotal = matchsMinTotal + participation.minutesJeu %}
+																	<tr class="table-success">
+																		<th scope="row"></th>
+																		<td>{{match.dateMatch | date('d-m-Y')}}</td>
+																		<td>{{match.id}}
+																			-
+																			{{match.libelle}}</td>
+																		<td>{{nbPasses}}
+																			passes décisive</td>
+																		<td>{{nbButs}}
+																			buts</td>
+																		<td>{{participation.minutesJeu}}
+																			min</td>
+																	</tr>
+																{% endif %}
+															{% endfor %}
+														{% endif %}
+													{% endfor %}
+												{% endif %}
+
+											{% endfor %}
+
+
+										</tbody>
+										<tfoot>
+											<!-- Pied de tableau -->
+											<tr>
+												<th>Total</th>
+												<th></th>
+												<th>Nombre de matchs :
+													{{matchsCounter}}</th>
+												<th>Passes décisive :
+													{{nbPassesTotal}}</th>
+												<th>Buts :
+													{{nbButsTotal}}</th>
+												<th>Temps total :
+													{{matchsMinTotal}}
+													min</th>
+											</tr>
+										</tfoot>
+
+									</table>
+
+								</div>
+
+							{% endif %}
+						{% endfor %}
+					{% endfor %}
+
+
+				</div>
+			</div>
+		{% endfor %}
+	</div>
+</article>{% endblock %}

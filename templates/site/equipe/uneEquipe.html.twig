@@ -1,0 +1,105 @@
+{% extends 'base.html.twig'%}
+{% block title %}L'équipe
+	{{equipe.nom}}
+{% endblock %}
+
+{% block body %}
+	{% include('site/baseEquipe.html.twig') %}
+	<article>
+		<h2>L'équipe
+			{{ equipe.nom }}
+		</h2>
+
+		<div class='description'></div>
+		<hr>
+
+	</article>
+
+	<p>Liste des saisons de l'équipe :</p>
+	<ul class="nav nav-tabs">
+
+		<li class="nav-item">
+
+			<a class="nav-link disabled" href="#">Saisons :</a>
+
+		</li>
+
+		{% for saison in saisonsEquipe %}
+			<li class="nav-item">
+				<a class="nav-link" data-bs-toggle="tab" href="#equipe{{equipe.id}}-saison{{saison.id}}">{{saison.libelle}}</a>
+			</li>
+		{% endfor %}
+	</ul>
+
+
+	<div
+		id="myTabContent" class="tab-content">
+		{# ON AFFICHE TOUT LES SAISONS DE L EQUIPE  #}
+		{% for saison in saisonsEquipe %}
+			<div class="tab-pane fade" id="equipe{{equipe.id}}-saison{{saison.id}}">
+				<p>Liste des joueurs saison
+					{{saison.libelle}}:</p>
+
+				<table class="table table-hover">
+					<thead>
+						<tr>
+							<th scope="col"></th>
+							<th scope="col">Nom</th>
+							<th scope="col">Prénom</th>
+							<th scope="col">Adresse email</th>
+							<th scope="col">Date de naissance</th>
+							<th scope="col">Informations</th>
+						</tr>
+					</thead>
+					<tbody>
+
+
+						{% for joueur in saison.joueurs %}
+							{# ON VEUT COMPARER L ID DE LA SAISON DANS EQUIPE_SAISON       SAISON DE L EQUIPE
+																																																																																																																																																																																																																																																																																																AVEC            L ID DE LA SAISON DANS SAISON_JOUEUR       SAISON DU JOUEUR
+																																																																																																																																																																																																																																																																																	
+																																																																																																																																																																																																																																																																																	
+																																																																																																																																																																																																																																																																																															  #}
+							{% for licence in licences %}
+								{% if (licence.joueur.id == joueur.id) and (licence.saison.id == saison.id) and (licence.equipe.id == equipe.id) %}
+
+									{% if ((joueur.id) % 2) == 1 %}
+										<tr class="table-success">
+											<th scope="row">{{ joueur.id}}</th>
+											<td>{{joueur.nom}}</td>
+											<td>{{joueur.prenom}}</td>
+											<td>{{joueur.email}}</td>
+											<td>{{joueur.dateNaissance | date('d/m/Y')}}</td>
+											<td>
+												<a href="{{ path('un_joueur', {'id': joueur.id}) }}">
+													<button type="button" class="btn btn-primary">Voir les détails</button>
+												</a>
+											</td>
+										</tr>
+									{% else %}
+										<tr class="table-danger">
+											<th scope="row">{{ joueur.id}}</th>
+											<td>{{joueur.nom}}</td>
+											<td>{{joueur.prenom}}</td>
+											<td>{{joueur.email}}</td>
+											<td>{{joueur.dateNaissance | date('d/m/Y')}}</td>
+											<td>
+												<a href="{{ path('un_joueur', {'id': joueur.id}) }}">
+													<button type="button" class="btn btn-primary">Voir les détails</button>
+												</a>
+											</td>
+										</tr>
+									{% endif %}
+								{% endif %}
+							{% endfor %}
+
+						{% endfor %}
+
+
+						{# <tr class="table-danger">																																																																																															</tr> #}
+					</tbody>
+				</tbody>
+			</table>
+		</div>
+	{% endfor %}
+</div>{% endblock %}
