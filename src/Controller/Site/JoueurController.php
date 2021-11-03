@@ -21,12 +21,8 @@ class JoueurController extends AbstractController
      * 
      * @Route("/les-joueurs", name="les_joueurs")
      */
-    public function joueurs(JoueursRepository $repo, SaisonRepository $repoSaison)
+    public function joueurs(JoueursRepository $repo)
     {
-        /**
-         * @var \App\Entity\Saison[] $saisons
-         */
-        $saisons = $repoSaison->findAll();
 
         /**
          * @var \App\Entity\Joueurs[] $joueurs 
@@ -36,9 +32,6 @@ class JoueurController extends AbstractController
         return $this->render('site/joueur/joueurs.html.twig', [
             'controller_name' => 'JoueurController',
             'joueurs' => $joueurs,
-            'saisons' => $saisons,
-
-
         ]);
     }
 
@@ -58,15 +51,6 @@ class JoueurController extends AbstractController
          * @var \App\Entity\EquipeSaisonJoueur[] $licences
          */
         $licences = $repoLicence->findAll();
-
-        /**
-         * @var \App\Entity\Equipe[] $equipes 
-         */
-
-        /**
-         * @var \App\Entity\Equipe[] $equipes
-         */
-        $equipes = $repoEquipe->findAll();
 
         /**
          * @var \App\Entity\Saison[] $saisons
@@ -108,13 +92,20 @@ class JoueurController extends AbstractController
          */
         $arraySaisonsJoueur = array();
 
+        /**
+         * On parcourt toutes les saisons
+         */
         foreach ($saisons as $saison) {
 
             /**
+             * On récupère les joueurs de chaque saison
              * @var mixed[] $joueurs
              */
             $joueurs = $saison->getJoueurs();
 
+            /**
+             * On parcourt la liste des joueurs pour récupérer la liste des saisons d'un joueur particulier
+             */
             foreach ($joueurs as $valeur) {
                 if ($valeur->getId() == $id) {
                     array_push($arraySaisonsJoueur, $saison);
@@ -122,14 +113,10 @@ class JoueurController extends AbstractController
             }
         }
 
-
-
         return $this->render('site/joueur/unJoueur.html.twig', [
             'joueur' => $joueur,
-            'saisons' => $saisons,
             'equipesJoueur' => $equipesJoueur,
             'saisonsJoueur' => $arraySaisonsJoueur,
-            'equipes' => $equipes,
             'licences' => $licences,
             'matchs' => $matchs,
             'participations' => $participations,

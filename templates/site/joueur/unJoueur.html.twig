@@ -1,5 +1,9 @@
 {% extends 'base.html.twig' %}
-
+{% block title %}Joueur n°{{joueur.id}}
+	-
+	{{joueur.nom}}
+	{{joueur.prenom}}
+{% endblock %}
 {% block body %}
 	<article>
 		<h2>{{ joueur.nom }}
@@ -7,8 +11,6 @@
 		<div class="metadata">Né le
 			{{joueur.dateNaissance | date('d/m/Y')}}</div>
 
-		<p>Joue actuellement pour
-		</p>
 		<div class="content">
 			<img src="{{joueur.photoJoueur}}" alt="">
 

@@ -1,11 +1,8 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<meta charset="UTF-8">
-		<title>
-			{% block title %}Welcome!
-			{% endblock %}
-		</title>
+		<meta
+		charset="UTF-8">
 		{# Run `composer require symfony/webpack-encore-bundle`																																																																																																																																																	           and uncomment the following Encore helpers to start using Symfony UX #}
 		{% block stylesheets %}<link rel="stylesheet" href="https://bootswatch.com/5/superhero/bootstrap.css">
 		{% endblock %}
@@ -49,7 +46,7 @@
 							</li>
 						{% else %}
 							<li class="nav-item">
-								<a href="{{path('app_logout')}}" class="nav-link">Déconnexion</a>
+								<a href="{{path('app_logout')}}" class="nav-link">Se déconnecter</a>
 							</li>
 						{% endif %}
 					</ul>

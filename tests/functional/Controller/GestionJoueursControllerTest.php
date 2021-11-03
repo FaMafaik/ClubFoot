@@ -131,6 +131,5 @@ class GestionJoueurControllerTest extends WebTestCase
 
         $this->assertResponseStatusCodeSame(Response::HTTP_FOUND);
         $client->followRedirect();
-        $this->assertSelectorTextContains('html', "Joue actuellement pour");
     }
 }

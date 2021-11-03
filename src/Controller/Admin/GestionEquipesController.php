@@ -72,7 +72,7 @@ class GestionEquipesController extends AbstractController
             return $this->redirectToRoute('une_equipe', ['id' => $equipe->getId()]);
         }
 
-        return $this->render('admin/gestion_equipes/creationEquipes.html.twig', [
+        return $this->render('admin/creationEquipes.html.twig', [
             'saisons' => $saisons,
             'formEquipe' => $form->createView(),
 

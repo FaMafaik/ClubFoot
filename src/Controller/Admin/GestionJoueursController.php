@@ -137,7 +137,7 @@ class GestionJoueursController extends AbstractController
             return $this->redirectToRoute('un_joueur', ['id' => $joueur->getId()]);
         }
 
-        return $this->render('admin/gestion_joueurs/inscriptionJoueurs.html.twig', [
+        return $this->render('admin/inscriptionJoueurs.html.twig', [
             'formJoueur' => $form->createView(),
 
         ]);
